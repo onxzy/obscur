@@ -1,0 +1,18 @@
+project:
+  name: test.ranion
+  take_screenshot: false
+  stix_details:
+    name: "Test Ranion Malware"
+    aliases: ["TestRanion", "RAnion"]
+    is_family: true
+
+sites:
+  ranion_official:
+    mirrors:
+      - http://zlcnys2z3u7pprq6d2gvisgknx7ijlo56m6xx55zup5gwrvrlq567nid.onion/
+    routes:
+      index:
+        path: index.html
+
+
+

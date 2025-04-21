@@ -1,0 +1,25 @@
+services:
+  tor-hidden-service:
+    image: goldy/tor-hidden-service:latest
+    depends_on:
+      - tor-hs-web-server
+    environment:
+      HW_TOR_SERVICE_HOSTS: 80:web-server:80
+    volumes:
+      - tor-hs-keys:/var/lib/tor/hidden_service/
+    networks:
+      - tor-hs
+
+  tor-hs-web-server:
+    image: php:apache
+    hostname: web-server
+    volumes:
+      - ./example-hidden-service:/var/www/html/
+    networks:
+      - tor-hs
+
+volumes:
+  tor-hs-keys:
+
+networks:
+  tor-hs:

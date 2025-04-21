@@ -1,0 +1,13 @@
+tor:
+  tmp_path: /tmp/tor_scraper
+  # png: 100, jpeg: 0-95
+  screenshot_quality: 100
+
+storage:
+  bucket:
+    content: pages.content
+    screenshot: pages.screenshot
+
+rss:
+  server_url: http://localhost:8000
+  max_items: 50  # Maximum number of items to keep in the RSS feed

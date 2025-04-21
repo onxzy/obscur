@@ -1,0 +1,41 @@
+services:
+  # Tor proxy for scraper
+  tor:
+    image: osminogin/tor-simple:latest
+    container_name: obscur-tor
+    restart: always
+    volumes:
+      - tor-data:/var/lib/tor
+    ports:
+      - "9050:9050"
+      - "9051:9051"
+
+  # rss server
+  rss-web-server:
+    build:
+      context: .
+      dockerfile: rss.Dockerfile
+    hostname: web-server
+    volumes:
+      - ./rss:/var/www/html/
+    ports:
+      - 8000:80
+
+  # Object storage
+  minio:
+    image: bitnami/minio
+    hostname: minio
+    restart: always
+    environment:
+      - MINIO_FORCE_NEW_KEYS=yes
+      - MINIO_ROOT_USER=${S3_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${S3_SECRET_KEY}
+    ports:
+      - ${MINIO_CONSOLE_PORT}:9001
+      - ${MINIO_PORT}:9000
+    volumes:
+      - minio:/data
+
+volumes:
+  tor-data:
+  minio:

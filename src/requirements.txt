@@ -1,0 +1,15 @@
+tbselenium
+pyvirtualdisplay
+beautifulsoup4
+lxml
+minio
+Pillow
+python-dotenv
+nltk
+Levenshtein
+textsearch
+thefuzz
+pyyaml
+colorama
+stix2
+pandas

@@ -1,0 +1,70 @@
+services:
+  # Tor proxy for scraper
+  tor:
+    image: osminogin/tor-simple:latest
+    hostname: tor
+    restart: always
+    volumes:
+      - tor-data:/var/lib/tor
+    ports:
+      - "9050:9050"
+      - "9051:9051"
+    networks:
+      - scraper
+
+  # Example hidden service for testing purposes
+  tor-hidden-service:
+    image: goldy/tor-hidden-service:latest
+    depends_on:
+      - tor-hs-web-server
+    environment:
+      HW_TOR_SERVICE_HOSTS: 80:web-server:80
+    volumes:
+      - tor-hs-keys:/var/lib/tor/hidden_service/
+    networks:
+      - tor-hs
+
+  tor-hs-web-server:
+    image: php:apache
+    hostname: web-server
+    volumes:
+      - ./example-hidden-service:/var/www/html/
+    networks:
+      - tor-hs
+
+  # rss server
+  rss-web-server:
+    build:
+      context: .
+      dockerfile: rss.Dockerfile
+    hostname: web-server
+    volumes:
+      - ./rss:/var/www/html/
+    ports:
+      - 8000:80
+
+  # Object storage
+  minio:
+    image: bitnami/minio
+    hostname: minio
+    restart: always
+    environment:
+      - MINIO_FORCE_NEW_KEYS=yes
+      - MINIO_ROOT_USER=${S3_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${S3_SECRET_KEY}
+    ports:
+      - ${MINIO_CONSOLE_PORT}:9001
+      - ${MINIO_PORT}:9000
+    volumes:
+      - minio:/data
+    networks:
+      - scraper
+
+volumes:
+  tor-hs-keys:
+  tor-data:
+  minio:
+
+networks:
+  scraper:
+  tor-hs:
