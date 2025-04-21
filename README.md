@@ -4,6 +4,8 @@
 
 ObscuR is a specialized tool designed for **Cyber Threat Intelligence (CTI)** with a focus on malware surveillance across dark web hidden services. This tool enables security professionals to monitor, analyze, and structure cyber threats.
 
+This tool was developed as a final year project for our engineering degree in collaboration with [Noah](https://github.com/noahbal) and [Elina Roussel](https://github.com/elinaroussel).
+
 ### The Challenge
 
 The dark web represents a critical but challenging source of threat intelligence, accessible only through specialized tools like the **Tor** network. Forums, marketplaces, and hidden services on the dark web often contain early indicators of emerging cyber threats, including:
